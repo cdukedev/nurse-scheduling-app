@@ -1,24 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import AdminDashboard from './containers/AdminDashboard';
+import NurseInterface from './containers/NurseInterface';
+import HomePage from './containers/HomePage';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <Routes>
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/nurse" element={<NurseInterface />} />
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+    </LocalizationProvider>
   );
 }
 
