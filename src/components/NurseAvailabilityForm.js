@@ -1,7 +1,13 @@
 // src/components/NurseAvailabilityForm.js
 import React from 'react';
 import { Form, Field } from 'react-final-form';
-import { TextField, Button, Grid } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Grid,
+  Checkbox,
+  FormControlLabel,
+} from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { updateNurseAvailability } from '../actions/nurseActions';
 
@@ -9,40 +15,60 @@ const NurseAvailabilityForm = () => {
   const dispatch = useDispatch();
 
   const onSubmit = (values) => {
+    // Assuming values include availableDays and preferredShifts
     dispatch(updateNurseAvailability(values));
+    alert('Availability updated successfully!');
   };
 
   return (
     <Form
       onSubmit={onSubmit}
-      render={({ handleSubmit, form, submitting, pristine, values }) => (
+      initialValues={{
+        availableDays: '',
+        preferredShifts: '',
+      }}
+      render={({ handleSubmit, form, submitting, pristine }) => (
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
+            {/* Available Days */}
             <Grid item xs={12}>
-              <Field name="days">
+              <Field name="availableDays">
                 {({ input, meta }) => (
                   <TextField
                     {...input}
-                    label="Days Available"
+                    label="Available Days (e.g., Mon, Tue)"
+                    variant="outlined"
+                    fullWidth
+                    required
+                  />
+                )}
+              </Field>
+            </Grid>
+            {/* Preferred Shifts */}
+            <Grid item xs={12}>
+              <Field name="preferredShifts">
+                {({ input, meta }) => (
+                  <TextField
+                    {...input}
+                    label="Preferred Shifts (e.g., Morning, Evening)"
                     variant="outlined"
                     fullWidth
                   />
                 )}
               </Field>
             </Grid>
+            {/* Additional Preferences (Example: Want Weekend Shifts) */}
             <Grid item xs={12}>
-              <Field name="shiftPreferences">
+              <Field name="wantsWeekendShifts" type="checkbox">
                 {({ input, meta }) => (
-                  <TextField
-                    {...input}
-                    label="Shift Preferences"
-                    variant="outlined"
-                    fullWidth
+                  <FormControlLabel
+                    control={<Checkbox {...input} color="primary" />}
+                    label="I am available for weekend shifts"
                   />
                 )}
               </Field>
             </Grid>
-            {/* Add more fields as necessary */}
+            {/* Submit Button */}
             <Grid item xs={12}>
               <Button
                 type="submit"

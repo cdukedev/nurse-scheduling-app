@@ -12,12 +12,14 @@ import {
         title: 'Morning Shift',
         start: new Date(),
         end: new Date(new Date().setHours(new Date().getHours() + 8)),
+        conflict: false,
       },
       {
         id: 1,
         title: 'Evening Shift',
         start: new Date(new Date().setHours(new Date().getHours() + 8)),
         end: new Date(new Date().setHours(new Date().getHours() + 16)),
+        conflict: false,
       },
     ],
   };
@@ -25,11 +27,26 @@ import {
   const shiftReducer = (state = initialState, action) => {
     switch (action.type) {
       case ADD_SHIFT:
+        // Detect conflicts with existing shifts
+        const hasConflict = state.shiftList.some(
+          (shift) =>
+            (action.payload.start >= shift.start && action.payload.start < shift.end) ||
+            (action.payload.end > shift.start && action.payload.end <= shift.end) ||
+            (action.payload.start <= shift.start && action.payload.end >= shift.end)
+        );
+  
         return {
           ...state,
-          shiftList: [...state.shiftList, action.payload],
+          shiftList: [
+            ...state.shiftList,
+            {
+              ...action.payload,
+              conflict: hasConflict,
+            },
+          ],
         };
       case UPDATE_SHIFT:
+        // Similar conflict detection can be implemented here if needed
         return {
           ...state,
           shiftList: state.shiftList.map((shift) =>

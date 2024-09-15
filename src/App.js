@@ -6,10 +6,12 @@ import NurseInterface from './containers/NurseInterface';
 import HomePage from './containers/HomePage';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import NavigationBar from './components/NavigationBar';
 
 function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <NavigationBar />
       <Routes>
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/nurse" element={<NurseInterface />} />

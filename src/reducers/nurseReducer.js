@@ -1,5 +1,6 @@
 // src/reducers/nurseReducer.js
-import { UPDATE_NURSE } from '../actions/nurseActions';
+
+import { UPDATE_NURSE, UPDATE_NURSE_AVAILABILITY } from '../actions/nurseActions';
 
 const initialState = {
   nurseList: [
@@ -15,6 +16,15 @@ const nurseReducer = (state = initialState, action) => {
         ...state,
         nurseList: state.nurseList.map((nurse) =>
           nurse.id === action.payload.id ? action.payload : nurse
+        ),
+      };
+    case UPDATE_NURSE_AVAILABILITY:
+      return {
+        ...state,
+        nurseList: state.nurseList.map((nurse) =>
+          nurse.id === action.payload.id
+            ? { ...nurse, availability: action.payload.availability }
+            : nurse
         ),
       };
     default:

@@ -13,6 +13,14 @@ const CalendarWrapper = styled('div')(({ theme }) => ({
 }));
 
 const ScheduleCalendar = ({ events, onEventSelect, onSlotSelect }) => {
+  const eventStyleGetter = (event) => {
+    const style = {
+      backgroundColor: event.conflict ? '#f44336' : '#1976d2', // Red for conflicts, Blue otherwise
+      color: 'white',
+    };
+    return { style };
+  };
+
   return (
     <CalendarWrapper>
       <Calendar
@@ -25,6 +33,7 @@ const ScheduleCalendar = ({ events, onEventSelect, onSlotSelect }) => {
         onSelectEvent={onEventSelect}
         onSelectSlot={onSlotSelect}
         style={{ height: '100%' }}
+        eventPropGetter={eventStyleGetter}
       />
     </CalendarWrapper>
   );
